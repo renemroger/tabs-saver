@@ -4,17 +4,21 @@
   "version": "0.1",
   "description": "Save and open currently opened tabs",
   "icons": {
-    "128": "public/icons/icon128.png",
-    "64": "public/icons/icon64.png",
-    "16": "public/icons/icon16.png"
+    "128": "icon128.png",
+    "64": "icon64.png",
+    "16": "icon16.png"
   },
   "browser_action": {
-    "default_icon": "public/icons/icon16.png",
-    "default_popup": "public/popup.html"
+    "default_icon": "icon16.png",
+    "default_popup": "popup.html"
   },
   "background": {
-    "persistent": true,
-    "scripts": ["js/background.js"]
+    "scripts": ["background.js"]
   },
-  "permissions": ["contextMenus"]
+  "permissions": [
+    "contextMenus",
+    "tabs",
+    "https://mail.google.com/*",
+    "http://*/*, https://*/*"
+  ]
 }
