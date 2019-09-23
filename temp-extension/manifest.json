@@ -2,5 +2,19 @@
   "manifest_version": 2,
   "name": "UrlNest",
   "version": "0.1",
-  "description": "Save and open currently opened tabs"
+  "description": "Save and open currently opened tabs",
+  "icons": {
+    "128": "public/icons/icon128.png",
+    "64": "public/icons/icon64.png",
+    "16": "public/icons/icon16.png"
+  },
+  "browser_action": {
+    "default_icon": "public/icons/icon16.png",
+    "default_popup": "public/popup.html"
+  },
+  "background": {
+    "persistent": true,
+    "scripts": ["js/background.js"]
+  },
+  "permissions": ["contextMenus"]
 }
