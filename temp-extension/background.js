@@ -13,7 +13,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             });
             break;
           default:
-            alert("yo");
+            alert("Case not found");
         }
         sendResponse({});
       }
