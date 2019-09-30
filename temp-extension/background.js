@@ -1,24 +1,41 @@
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  getAllTabs().then(tabs => {
-    chrome.tabs.executeScript(
-      null,
-      {
-        code: "var tabs = " + JSON.stringify(tabs)
-      },
-      () => {
-        switch (request.directive) {
-          case "popup-click":
+  switch (request.directive) {
+    case "save-click":
+      //Read all Tabs currently opened
+      getAllTabs().then(tabs => {
+        //work around to pass tabs object to the saver.js script
+        chrome.tabs.executeScript(
+          null,
+          {
+            code: "var tabs = " + JSON.stringify(tabs)
+          },
+          () => {
             chrome.tabs.executeScript(null, {
-              file: "contentscript.js"
+              file: "saver.js"
             });
-            break;
-          default:
-            alert("Case not found");
-        }
-        sendResponse({});
-      }
-    );
-  });
+          }
+        );
+      });
+      break;
+    case "open-click":
+      chrome.tabs.executeScript(null, {
+        file: "opener.js"
+      });
+      break;
+    case "empty-click":
+      chrome.tabs.executeScript(null, {
+        file: "empty.js"
+      });
+      break;
+    case "view-click":
+      chrome.tabs.executeScript(null, {
+        file: "viewer.js"
+      });
+      break;
+    default:
+      alert("Case not found");
+  }
+  sendResponse({});
   return true;
 });
 
