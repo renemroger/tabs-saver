@@ -1,1 +1,1 @@
-console.log("Open");
+chrome.tabs.create({ url: "http://www.google.com" });

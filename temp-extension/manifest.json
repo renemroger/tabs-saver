@@ -25,6 +25,7 @@
     "sessions",
     "*://*/*",
     "https://mail.google.com/*",
-    "http://*/*, https://*/*"
+    "http://*/*, https://*/*",
+    "https://www.google.com/_/chrome/newtab"
   ]
 }
