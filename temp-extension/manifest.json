@@ -19,13 +19,13 @@
   },
   "permissions": [
     "storage",
+    "cookies",
     "contextMenus",
     "tabs",
-    "notifications",
     "sessions",
     "*://*/*",
     "https://mail.google.com/*",
     "http://*/*, https://*/*",
-    "https://www.google.com/_/chrome/newtab"
+    "https://kit.fontawesome.com/*"
   ]
 }
