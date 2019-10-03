@@ -7,7 +7,25 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       });
       break;
     case "open-click":
-      chrome.tabs.create({ url: "http://www.google.com" });
+      chrome.storage.sync.get(["data"], result => {
+        if (result.data) {
+          chrome.windows.create(
+            {
+              url: chrome.runtime.getURL("www.google.com")
+            },
+            window => {
+              for (const tab of result.data[0]) {
+                window.create({ url: tab.url });
+              }
+            }
+          );
+          // for (const tab of result.data[0]) {
+          //   chrome.window.create({ url: tab.url });
+          // }
+        } else {
+          console.log("na saved tabs");
+        }
+      });
       break;
     case "empty-click":
       chrome.storage.sync.clear(function() {
