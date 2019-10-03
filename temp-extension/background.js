@@ -7,21 +7,27 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       });
       break;
     case "open-click":
+      //get priveiously saved tabs
       chrome.storage.sync.get(["data"], result => {
         if (result.data) {
-          chrome.windows.create(
+          //create new window
+          chrome.windows.create({}, function() {
+            //create tabs in new window
+            for (const tab of result.data[0]) {
+              chrome.tabs.create({ url: tab.url });
+            }
+          });
+          chrome.tabs.query(
             {
-              url: chrome.runtime.getURL("www.google.com")
+              currentWindow: true
             },
-            window => {
-              for (const tab of result.data[0]) {
-                window.create({ url: tab.url });
+            tabs => {
+              //delete empty tab from new window
+              if (tabs[0] && tabs[0].url === "chrome://newtab/") {
+                chrome.tabs.remove(tabs[0].id);
               }
             }
           );
-          // for (const tab of result.data[0]) {
-          //   chrome.window.create({ url: tab.url });
-          // }
         } else {
           console.log("na saved tabs");
         }
