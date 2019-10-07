@@ -49,16 +49,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
       break;
     case 'view-click':
-      chrome.storage.sync.get(['data'], (result) => {
-        if (result.data) {
-          for (const tab of result.data[0]) {
-            console.log(tab.url);
-          }
-        } else {
-          console.log('na saved tabs');
-        }
-      });
-
+      printGroups(null); //null as argument finds all storedData
       break;
     default:
       alert('Case not found');
@@ -80,29 +71,56 @@ function getAllTabs() {
   });
 }
 
+function printGroups(key) {
+  getStorageData(key)
+    .then((result) => {
+      for (const groups in result) {
+        console.log(groups);
+        const tabs = { name: groups, data: result[groups][0] };
+        for (const tab of tabs.data) {
+          console.log(tab.url);
+        }
+      }
+    })
+    .catch((error) => {
+      console.log('nothing found');
+    });
+}
+
+// if (result) {
+// } else {
+//   console.log('na saved tabs');
+// }
+
+const getStorageData = (key) =>
+  new Promise((resolve, reject) =>
+    chrome.storage.sync.get(key, (result) =>
+      chrome.runtime.lastError
+        ? reject(Error(chrome.runtime.lastError.message))
+        : resolve(result)
+    )
+  );
+
+const setStorageData = (data) =>
+  new Promise((resolve, reject) =>
+    chrome.storage.sync.set(data, () =>
+      chrome.runtime.lastError
+        ? reject(Error(chrome.runtime.lastError.message))
+        : resolve(data)
+    )
+  );
+
 async function saveData(tabs) {
   console.log('saving');
-  const getStorageData = (key) =>
-    new Promise((resolve, reject) =>
-      chrome.storage.sync.get(key, (result) =>
-        chrome.runtime.lastError
-          ? reject(Error(chrome.runtime.lastError.message))
-          : resolve(result)
-      )
-    );
+  const groupName = prompt();
 
-  const { data } = await getStorageData('data');
+  if (groupName) {
+    const { data } = await getStorageData(groupName);
 
-  const setStorageData = (data) =>
-    new Promise((resolve, reject) =>
-      chrome.storage.sync.set(data, () =>
-        chrome.runtime.lastError
-          ? reject(Error(chrome.runtime.lastError.message))
-          : resolve()
-      )
-    );
-
-  await setStorageData({ data: [tabs] }).then(() => {
-    console.log('items saved');
-  });
+    await setStorageData({ [groupName]: [tabs] }).then((data) => {
+      console.log(data, ' was saved');
+    });
+  } else {
+    alert('items were not saved');
+  }
 }
