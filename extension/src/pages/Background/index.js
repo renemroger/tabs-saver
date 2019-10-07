@@ -2,6 +2,13 @@ import '../../assets/img/icon16.png';
 import '../../assets/img/icon32.png';
 import '../../assets/img/icon64.png';
 import '../../assets/img/icon128.png';
+import { printGroups } from '../Content/modules/funcionalHelpers';
+import { getAllTabs } from '../Content/modules/tabsHelpers';
+import {
+  saveData,
+  setStorageData,
+  getStorageData,
+} from '../Content/modules/storageHelpers';
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   switch (request.directive) {
@@ -57,70 +64,3 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   sendResponse({});
   return true;
 });
-
-function getAllTabs() {
-  return new Promise(function(resolve, reject) {
-    chrome.tabs.query(
-      {
-        currentWindow: true,
-      },
-      function(tabs) {
-        resolve(tabs);
-      }
-    );
-  });
-}
-
-function printGroups(key) {
-  getStorageData(key)
-    .then((result) => {
-      for (const groups in result) {
-        console.log(groups);
-        const tabs = { name: groups, data: result[groups][0] };
-        for (const tab of tabs.data) {
-          console.log(tab.url);
-        }
-      }
-    })
-    .catch((error) => {
-      console.log('nothing found');
-    });
-}
-
-// if (result) {
-// } else {
-//   console.log('na saved tabs');
-// }
-
-const getStorageData = (key) =>
-  new Promise((resolve, reject) =>
-    chrome.storage.sync.get(key, (result) =>
-      chrome.runtime.lastError
-        ? reject(Error(chrome.runtime.lastError.message))
-        : resolve(result)
-    )
-  );
-
-const setStorageData = (data) =>
-  new Promise((resolve, reject) =>
-    chrome.storage.sync.set(data, () =>
-      chrome.runtime.lastError
-        ? reject(Error(chrome.runtime.lastError.message))
-        : resolve(data)
-    )
-  );
-
-async function saveData(tabs) {
-  console.log('saving');
-  const groupName = prompt();
-
-  if (groupName) {
-    const { data } = await getStorageData(groupName);
-
-    await setStorageData({ [groupName]: [tabs] }).then((data) => {
-      console.log(data, ' was saved');
-    });
-  } else {
-    alert('items were not saved');
-  }
-}

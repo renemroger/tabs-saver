@@ -142,6 +142,7 @@ var options = {
       filename: 'background.html',
       chunks: ['background'],
     }),
+
     new WriteFilePlugin(),
   ],
 };
