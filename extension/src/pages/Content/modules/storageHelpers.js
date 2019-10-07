@@ -17,13 +17,14 @@ const setStorageData = (data) =>
   );
 
 async function saveData(tabs) {
-  console.log('saving');
   const groupName = prompt();
 
   if (groupName) {
     const { data } = await getStorageData(groupName);
 
-    await setStorageData({ [groupName]: [tabs] }).then((data) => {});
+    await setStorageData({ [groupName]: [tabs] }).then((data) => {
+      console.log(data, 'was saved');
+    });
   } else {
     alert('items were not saved');
   }

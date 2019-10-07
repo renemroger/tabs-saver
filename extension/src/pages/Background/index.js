@@ -13,19 +13,23 @@ import {
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   switch (request.directive) {
     case 'save-click':
-      console.log('save');
       getAllTabs().then((tabs) => {
+        // console.log(tabs, 'tabs from getAllTabs');
         saveData(tabs);
       });
       break;
     case 'open-click':
       //get priveiously saved tabs
-      chrome.storage.sync.get(['data'], (result) => {
-        if (result.data) {
-          //create new window
+      chrome.storage.sync.get([request.groupName], (result) => {
+        //create new window
+        console.log(result);
+        if (
+          Object.entries(result).length !== 0 &&
+          result.constructor === Object
+        ) {
           chrome.windows.create({}, function() {
             //create tabs in new window
-            for (const tab of result.data[0]) {
+            for (const tab of result[request.groupName][0]) {
               chrome.tabs.create({ url: tab.url });
             }
           });
@@ -40,8 +44,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
               }
             }
           );
-        } else {
-          console.log('na saved tabs');
         }
       });
       break;
@@ -53,7 +55,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         }
         console.log('all tabs removed');
       });
-
       break;
     case 'view-click':
       printGroups(null); //null as argument finds all storedData
