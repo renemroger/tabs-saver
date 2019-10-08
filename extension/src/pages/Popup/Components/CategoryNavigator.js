@@ -26,27 +26,34 @@ export default function CategoryNavigator(props) {
         return (
           <TreeItem key={uniqid()} nodeId={uniqid()} label={category}>
             {groups.map((group, index) => {
-              return (
-                <TreeItem key={index} nodeId={uniqid()} label={group.name}>
-                  <a
-                    onClick={() => {
-                      chrome.runtime.sendMessage(
-                        { directive: 'open-click', groupId: group.id },
-                        function(response) {
-                          //this.close();
-                        }
-                      );
-                    }}
-                  >
-                    Open Tab
-                  </a>
-                  <OpenButton
-                    key={index}
-                    group={group}
-                    index={index}
-                  ></OpenButton>
-                </TreeItem>
-              );
+              console.log(category === group.category);
+              if (category === group.category) {
+                return (
+                  <TreeItem key={index} nodeId={uniqid()} label={group.name}>
+                    <a
+                      onClick={() => {
+                        chrome.runtime.sendMessage(
+                          { directive: 'open-click', groupId: group.id },
+                          function(response) {
+                            //this.close();
+                          }
+                        );
+                      }}
+                    >
+                      Open Tab
+                    </a>
+                    {
+                      <OpenButton
+                        key={index}
+                        group={group}
+                        index={index}
+                      ></OpenButton>
+                    }
+                  </TreeItem>
+                );
+              } else {
+                return <></>;
+              }
             })}
           </TreeItem>
         );
