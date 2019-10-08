@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { getStorageData } from '../Content/modules/storageHelpers';
-import OpenButton from './Components/OpenButton';
+import CategoryNavigator from './Components/CategoryNavigator';
 
 import './Popup.css';
 
 const Popup = () => {
   const [groups, setGroups] = useState([]);
+  const [categories, setCategories] = useState(['Category 1', 'Category 2']);
 
   useEffect(() => {
     getStorageData(null).then((result) => {
@@ -17,8 +18,6 @@ const Popup = () => {
       setGroups(...groups, tabs);
     });
   }, []);
-
-  console.log(groups);
 
   return (
     <div id="main-menu" className="layout-view">
@@ -65,23 +64,9 @@ const Popup = () => {
             View Tabs
           </a>
         </li>
-        <li>
-          {groups.map((tabs) => {
-            return (
-              <OpenButton
-                tabs={tabs}
-                onClick={() => {
-                  chrome.runtime.sendMessage(
-                    { directive: 'open-click', groupName: tabs.name },
-                    function(response) {
-                      //this.close();
-                    }
-                  );
-                }}
-              ></OpenButton>
-            );
-          })}
-        </li>
+        <CategoryNavigator categories={categories} groups={groups}>
+          {' '}
+        </CategoryNavigator>
       </ul>
     </div>
   );

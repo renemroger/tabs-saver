@@ -27,7 +27,7 @@
     "icon-128.png",
     "icon-34.png"
   ],
-  "content_security_policy": "script-src 'self'  https://ajax.googleapis.com 'unsafe-eval'; object-src 'self'",
+  "content_security_policy": "script-src 'self' https://fonts.googleapis.com https://ajax.googleapis.com 'unsafe-eval'; object-src 'self'",
   "permissions": [
     "storage",
     "cookies",

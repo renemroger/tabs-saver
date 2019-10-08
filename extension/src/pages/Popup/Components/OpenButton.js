@@ -1,13 +1,17 @@
 import React from 'react';
+import TreeItem from '@material-ui/lab/TreeItem';
+import uniqid from 'uniqid';
 export default function OpenButton(props) {
+  console.log(props);
+
   return (
     <>
-      <a onClick={props.onClick}>{props.tabs.name}</a>
-      <ul>
-        {props.tabs.data.map((tab) => {
-          return <li>{tab.url}</li>;
+      {props.group &&
+        props.group.data.map((tab, key) => {
+          return (
+            <TreeItem key={key} nodeId={uniqid()} label={tab.url}></TreeItem>
+          );
         })}
-      </ul>
     </>
   );
 }
