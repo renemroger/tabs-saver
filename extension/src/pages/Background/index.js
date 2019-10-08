@@ -10,8 +10,15 @@ import {
   getStorageData,
 } from '../Content/modules/storageHelpers';
 
+function pop_up_window() {
+  let tab_name = prompt('Please enter your Tab Group', 'Tab Group 1');
+}
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   switch (request.directive) {
+    case 'spider-save':
+      pop_up_window();
+      break;
     case 'save-click':
       getAllTabs().then((tabs) => {
         // console.log(tabs, 'tabs from getAllTabs');

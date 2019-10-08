@@ -25,6 +25,19 @@ const Popup = () => {
         <li>
           <a
             onClick={() => {
+              chrome.runtime.sendMessage({ directive: 'spider-save' }, function(
+                response
+              ) {
+                //this.close();
+              });
+            }}
+          >
+            Spider Save
+          </a>
+        </li>
+        <li>
+          <a
+            onClick={() => {
               chrome.runtime.sendMessage({ directive: 'save-click' }, function(
                 response
               ) {
