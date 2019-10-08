@@ -20,16 +20,17 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       break;
     case 'open-click':
       //get priveiously saved tabs
-      chrome.storage.sync.get([request.groupName], (result) => {
+      console.log('here', request.groupId);
+      chrome.storage.sync.get([request.groupId], (result) => {
         //create new window
-        console.log(result);
         if (
           Object.entries(result).length !== 0 &&
           result.constructor === Object
         ) {
+          console.log(result[request.groupId].Data[0]);
           chrome.windows.create({}, function() {
             //create tabs in new window
-            for (const tab of result[request.groupName][0]) {
+            for (const tab of result[request.groupId].Data[0]) {
               chrome.tabs.create({ url: tab.url });
             }
           });

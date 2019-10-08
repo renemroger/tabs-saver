@@ -2,8 +2,6 @@ import React from 'react';
 import TreeItem from '@material-ui/lab/TreeItem';
 import uniqid from 'uniqid';
 export default function OpenButton(props) {
-  console.log(props);
-
   return (
     <>
       {props.group &&

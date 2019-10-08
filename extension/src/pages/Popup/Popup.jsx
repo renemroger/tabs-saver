@@ -6,15 +6,14 @@ import './Popup.css';
 
 const Popup = () => {
   const [groups, setGroups] = useState([]);
-  const [categories, setCategories] = useState(['Default']);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     getStorageData(null).then((result) => {
-      let tabs = [];
-      for (const newTabs in result) {
-        tabs.push({ name: newTabs, data: result[newTabs][0] });
-      }
-      setGroups(...groups, tabs);
+      let tabs = groupTabs(result);
+      let categories = groupCategories(result);
+      setGroups(tabs);
+      setCategories(categories);
     });
   }, []);
 
@@ -70,5 +69,28 @@ const Popup = () => {
     </div>
   );
 };
+
+function groupTabs(result) {
+  let tabs = [];
+  for (const groups in result) {
+    const group = result[groups];
+    tabs.push({
+      name: group.GroupName[0],
+      category: group.Category[0],
+      data: group.Data[0],
+      id: group.Id[0],
+    });
+  }
+  return tabs;
+}
+
+function groupCategories(result) {
+  let categories = [];
+  for (const groups in result) {
+    const group = result[groups];
+    categories.push(group.Category[0]);
+  }
+  return categories;
+}
 
 export default Popup;

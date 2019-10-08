@@ -21,8 +21,8 @@ const setStorageData = (data) =>
 
 async function saveData(tabs) {
   let groupName = prompt();
-  let categoryName = 'Default';
-  if (!categoryName) categoryName = 'Default';
+  let categoryName = prompt();
+  if (!categoryName) categoryName = 'Non-Default';
 
   if (groupName) {
     let groupKey = uniqid('groupKey-');
