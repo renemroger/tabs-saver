@@ -1,3 +1,6 @@
+import uniqid from 'uniqid';
+import { compose } from '@material-ui/system';
+
 const getStorageData = (key) =>
   new Promise((resolve, reject) =>
     chrome.storage.sync.get(key, (result) =>
@@ -17,12 +20,20 @@ const setStorageData = (data) =>
   );
 
 async function saveData(tabs) {
-  const groupName = prompt();
+  let groupName = prompt();
+  let categoryName = 'Default';
+  if (!categoryName) categoryName = 'Default';
 
   if (groupName) {
-    const { data } = await getStorageData(groupName);
-
-    await setStorageData({ [groupName]: [tabs] }).then((data) => {
+    let groupKey = uniqid('groupKey-');
+    await setStorageData({
+      [groupKey]: {
+        Data: [tabs],
+        GroupName: [groupName],
+        Category: [categoryName],
+        Id: [groupKey],
+      },
+    }).then((data) => {
       console.log(data, 'was saved');
     });
   } else {

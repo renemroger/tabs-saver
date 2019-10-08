@@ -6,13 +6,12 @@ import './Popup.css';
 
 const Popup = () => {
   const [groups, setGroups] = useState([]);
-  const [categories, setCategories] = useState(['Category 1', 'Category 2']);
+  const [categories, setCategories] = useState(['Default']);
 
   useEffect(() => {
     getStorageData(null).then((result) => {
       let tabs = [];
       for (const newTabs in result) {
-        // console.log(result[newTabs][0]);
         tabs.push({ name: newTabs, data: result[newTabs][0] });
       }
       setGroups(...groups, tabs);
@@ -61,7 +60,7 @@ const Popup = () => {
               });
             }}
           >
-            View Tabs
+            Console Tabs
           </a>
         </li>
         <CategoryNavigator categories={categories} groups={groups}>

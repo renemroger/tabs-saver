@@ -16,8 +16,6 @@ const useStyles = makeStyles({
 export default function CategoryNavigator(props) {
   const classes = useStyles();
   const groups = props.groups;
-
-  console.log(groups);
   return (
     <TreeView
       className={classes.root}

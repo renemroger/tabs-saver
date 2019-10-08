@@ -4,7 +4,13 @@ function printGroups(key) {
   getStorageData(key).then((result) => {
     if (Object.entries(result).length !== 0 && result.constructor === Object) {
       for (const groups in result) {
-        const tabs = { name: groups, data: result[groups][0] };
+        const group = result[groups];
+        const tabs = {
+          name: group.GroupName[0],
+          data: group.Data[0],
+          id: group.Id[0],
+        };
+        console.log(`Name: ${tabs.name}, Id: ${tabs.id}`);
         for (const tab of tabs.data) {
           console.log(tab.url);
         }
