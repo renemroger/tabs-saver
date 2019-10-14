@@ -1,0 +1,35 @@
+.dropdown {
+  vertical-align: middle;
+  float: right;
+  position: relative;
+}
+
+.dropdown-content {
+  border: solid 2px;
+  border-color: black;
+  border-radius: 5px;
+  padding: 1px;
+  display: none;
+  right: 0;
+  position: absolute;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 50;
+}
+
+.dropdown-content span {
+  width: 100%;
+  border: none;
+  margin-right: auto;
+  margin-left: auto;
+  color: black;
+  display: block;
+}
+
+.dropdown-content span:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
