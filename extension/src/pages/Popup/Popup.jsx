@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getStorageData } from '../Content/modules/storageHelpers';
 import CategoryNavigator from './Components/CategoryNavigator';
+import CategoryNavigatorSpider from './Components/CategoryNavigatorSpider';
 
 import './Popup.css';
 
@@ -71,6 +72,10 @@ const Popup = () => {
           categories={categories}
           groups={groups}
         ></CategoryNavigator>
+        <CategoryNavigatorSpider
+          categories={categories}
+          groups={groups}
+        ></CategoryNavigatorSpider>
       </ul>
     </div>
   );
