@@ -22,7 +22,7 @@ export default function CategoryNavigator(props) {
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
     >
-      {props['categories'].map((category, key) => {
+      {props.categories.map((category, key) => {
         return (
           <TreeItem key={uniqid()} nodeId={uniqid()} label={category}>
             {groups.map((group, index) => {

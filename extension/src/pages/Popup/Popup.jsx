@@ -7,15 +7,19 @@ import './Popup.css';
 const Popup = () => {
   const [groups, setGroups] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [refresher, setRefresher] = useState(false);
 
   useEffect(() => {
     getStorageData(null).then((result) => {
       let tabs = groupTabs(result);
       let categories = groupCategories(result);
+      console.log(groupTabs(result));
+      console.log(groupCategories(result));
       setGroups(tabs);
       setCategories(categories);
+      setRefresher(false);
     });
-  }, []);
+  }, [refresher]);
 
   return (
     <div id="main-menu" className="layout-view">
@@ -27,6 +31,7 @@ const Popup = () => {
                 response
               ) {
                 //this.close();
+                setRefresher(true);
               });
             }}
           >
@@ -62,9 +67,10 @@ const Popup = () => {
             Console Tabs
           </a>
         </li>
-        <CategoryNavigator categories={categories} groups={groups}>
-          {' '}
-        </CategoryNavigator>
+        <CategoryNavigator
+          categories={categories}
+          groups={groups}
+        ></CategoryNavigator>
       </ul>
     </div>
   );
