@@ -1,13 +1,8 @@
 .dropdown {
-  vertical-align: middle;
-  float: right;
   position: relative;
 }
 
 .dropdown-content {
-  border: solid 2px;
-  border-color: black;
-  border-radius: 5px;
   padding: 1px;
   display: none;
   right: 0;
@@ -17,7 +12,7 @@
   z-index: 50;
 }
 
-.dropdown-content span {
+.dropdown-content ul {
   width: 100%;
   border: none;
   margin-right: auto;
@@ -26,7 +21,7 @@
   display: block;
 }
 
-.dropdown-content span:hover {
+.dropdown-content ul:hover {
   background-color: #f1f1f1;
 }
 

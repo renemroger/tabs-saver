@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import OpenButton from './OpenButton';
+import './CategoryNavigatorSpider.css';
 
 const useStyles = makeStyles({
   root: {
@@ -15,29 +16,42 @@ export default function CategoryNavigatorSpider(props) {
       {props.categories.map((category, key) => {
         return (
           <React.Fragment>
-            {props.groups.map((group, index) => {
-              return (
-                <React.Fragment>
-                  <a
-                    onClick={() => {
-                      chrome.runtime.sendMessage(
-                        { directive: 'open-click', groupId: group.id },
-                        function(response) {
-                          //this.close();
-                        }
-                      );
-                    }}
-                  >
-                    Open Tab
-                  </a>
-                  <OpenButton
-                    key={index}
-                    group={group}
-                    index={index}
-                  ></OpenButton>
-                </React.Fragment>
-              );
-            })}
+            <div className="dropdown">
+              <ul>
+                <li>
+                  <a key={key}>{category}</a>
+                </li>
+              </ul>
+
+              {props.groups.map((group, index) => {
+                console.log(group);
+                return (
+                  <div className="dropdown-content">
+                    <ul className="vertical">
+                      <li>
+                        <a
+                          onClick={() => {
+                            chrome.runtime.sendMessage(
+                              { directive: 'open-click', groupId: group.id },
+                              function(response) {
+                                //this.close();
+                              }
+                            );
+                          }}
+                        >
+                          Open Tab
+                        </a>
+                      </li>
+                    </ul>
+                    <OpenButton
+                      key={index}
+                      group={group}
+                      index={index}
+                    ></OpenButton>
+                  </div>
+                );
+              })}
+            </div>
           </React.Fragment>
         );
       })}

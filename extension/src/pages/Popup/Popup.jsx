@@ -68,10 +68,10 @@ const Popup = () => {
             Console Tabs
           </a>
         </li>
-        <CategoryNavigator
+        {/* <CategoryNavigator
           categories={categories}
           groups={groups}
-        ></CategoryNavigator>
+        ></CategoryNavigator> */}
         <CategoryNavigatorSpider
           categories={categories}
           groups={groups}
