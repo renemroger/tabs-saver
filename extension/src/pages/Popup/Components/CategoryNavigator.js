@@ -21,10 +21,8 @@ export default function CategoryNavigatorSpider(props) {
 
   const onNodeToggle = (nodeId, isExpanded) => {
     if (isExpanded) {
-      //add opened nodeID when closing window
       props.setCurrentlyOpenedPanels((arr) => [...arr, nodeId]);
     } else {
-      //remove closed nodeID when closing window
       props.setCurrentlyOpenedPanels((arr) => [
         ...arr.filter((item) => item !== nodeId),
       ]);
@@ -39,7 +37,6 @@ export default function CategoryNavigatorSpider(props) {
       defaultExpandIcon={<ChevronRightIcon />}
       defaultExpanded={props.currentlyOpenedPanels}
       onNodeToggle={onNodeToggle}
-      key={uniqid()}
     >
       {props.categories.map((category, key) => {
         return (

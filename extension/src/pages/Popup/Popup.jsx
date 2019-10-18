@@ -16,7 +16,6 @@ const Popup = () => {
       setGroups(groupTabs(result));
       setCategories(groupCategories(result));
       setRefresher(false);
-      console.log(currentlyOpenedPanels);
     });
   }, [refresher]);
 
