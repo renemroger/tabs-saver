@@ -4,7 +4,6 @@ import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-import OpenButton from './OpenButton';
 import uniqid from 'uniqid';
 
 const useStyles = makeStyles({
@@ -48,7 +47,7 @@ export default function CategoryNavigatorSpider(props) {
               if (category.name === group.category) {
                 return (
                   <TreeItem key={uniqid()} nodeId={group.id} label={group.name}>
-                    {/* <a
+                    <a
                       onClick={() => {
                         chrome.runtime.sendMessage(
                           { directive: 'open-click', groupId: group.id },
@@ -59,7 +58,7 @@ export default function CategoryNavigatorSpider(props) {
                       }}
                     >
                       Open Tab
-                    </a> */}
+                    </a>
                     {group &&
                       group.data.map((tab, key) => {
                         return (

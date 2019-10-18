@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getStorageData } from '../Content/modules/storageHelpers';
 import CategoryNavigator from './Components/CategoryNavigator';
+import StyledCategoryNavigator from './Components/StyledCategoryNavigator';
 import uniqid from 'uniqid';
 
 import './Popup.css';
@@ -50,22 +51,10 @@ const Popup = () => {
             Delete All Tabs
           </a>
         </li>
-        <li>
-          <a
-            onClick={() => {
-              chrome.runtime.sendMessage({ directive: 'view-click' }, function(
-                response
-              ) {
-                // this.close();
-              });
-            }}
-          >
-            Console Tabs
-          </a>
-        </li>
       </ul>
       <div className="sep"></div>
-      <CategoryNavigator
+
+      <StyledCategoryNavigator
         key={uniqid()}
         categories={categories}
         groups={groups}
@@ -73,7 +62,7 @@ const Popup = () => {
         currentlyOpenedPanels={currentlyOpenedPanels}
       >
         {' '}
-      </CategoryNavigator>
+      </StyledCategoryNavigator>
     </div>
   );
 };
