@@ -14,17 +14,16 @@ export default function CategoryNavigator(props) {
     root: {},
   });
   const classes = useStyles();
-  const groups = props.groups;
   return (
     <TreeView
       className={classes.root}
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
     >
-      {props['categories'].map((category, key) => {
+      {props.categories.map((category, key) => {
         return (
           <TreeItem key={uniqid()} nodeId={uniqid()} label={category}>
-            {groups.map((group, index) => {
+            {props.groups.map((group, index) => {
               if (category === group.category) {
                 return (
                   <TreeItem key={uniqid()} nodeId={uniqid()} label={group.name}>
