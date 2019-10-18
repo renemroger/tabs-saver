@@ -1,56 +1,62 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import TreeView from '@material-ui/lab/TreeView';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import TreeItem from '@material-ui/lab/TreeItem';
 import OpenButton from './OpenButton';
-import uniqid from 'uniqid';
+import './CategoryNavigator.css';
 
 const useStyles = makeStyles({
-  root: {
-    paddingTop: 30,
+  span: {
+    float: 'left',
   },
 });
 
-export default function CategoryNavigator(props) {
+export default function CategoryNavigatorSpider(props) {
   const classes = useStyles();
-  const groups = props.groups;
   return (
-    <TreeView
-      className={classes.root}
-      defaultCollapseIcon={<ExpandMoreIcon />}
-      defaultExpandIcon={<ChevronRightIcon />}
-    >
+    <React.Fragment>
       {props.categories.map((category, key) => {
         return (
-          <TreeItem key={uniqid()} nodeId={uniqid()} label={category}>
-            {groups.map((group, index) => {
-              return (
-                <TreeItem key={index} nodeId={uniqid()} label={group.name}>
-                  <a
-                    onClick={() => {
-                      chrome.runtime.sendMessage(
-                        { directive: 'open-click', groupId: group.id },
-                        function(response) {
-                          //this.close();
-                        }
-                      );
-                    }}
-                  >
-                    Open Tab
+          <React.Fragment>
+            <div className="dropdown">
+              <ul>
+                <li>
+                  <a key={key}>
+                    {category} <span className={classes.span}>{'<'}</span>
                   </a>
-                  <OpenButton
-                    key={index}
-                    group={group}
-                    index={index}
-                  ></OpenButton>
-                </TreeItem>
-              );
-            })}
-          </TreeItem>
+                </li>
+              </ul>
+              {props.groups.map((group, index) => {
+                return (
+                  group.category === category && (
+                    <div className="dropdown-content">
+                      <ul className="vertical">
+                        <li>
+                          <a
+                            onClick={() => {
+                              chrome.runtime.sendMessage(
+                                { directive: 'open-click', groupId: group.id },
+                                function(response) {
+                                  //this.close();
+                                }
+                              );
+                            }}
+                          >
+                            Open Tab
+                          </a>
+                        </li>
+                      </ul>
+                      <OpenButton
+                        key={index}
+                        group={group}
+                        index={index}
+                      ></OpenButton>
+                    </div>
+                  )
+                );
+              })}
+            </div>
+          </React.Fragment>
         );
       })}
-    </TreeView>
+    </React.Fragment>
   );
 }

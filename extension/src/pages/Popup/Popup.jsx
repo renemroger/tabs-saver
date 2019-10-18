@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getStorageData } from '../Content/modules/storageHelpers';
 import CategoryNavigator from './Components/CategoryNavigator';
-import CategoryNavigatorSpider from './Components/CategoryNavigatorSpider';
 
 import './Popup.css';
 
@@ -46,6 +45,7 @@ const Popup = () => {
                 response
               ) {
                 //this.close();
+                setRefresher(true);
               });
             }}
           >
@@ -68,14 +68,10 @@ const Popup = () => {
             Console Tabs
           </a>
         </li>
-        {/* <CategoryNavigator
+        <CategoryNavigator
           categories={categories}
           groups={groups}
-        ></CategoryNavigator> */}
-        <CategoryNavigatorSpider
-          categories={categories}
-          groups={groups}
-        ></CategoryNavigatorSpider>
+        ></CategoryNavigator>
       </ul>
     </div>
   );
