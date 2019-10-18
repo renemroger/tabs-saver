@@ -66,17 +66,15 @@ const Popup = () => {
         </li>
       </ul>
       <div className="sep"></div>
-      <ul className="vertical">
-        <CategoryNavigator
-          key={uniqid()}
-          categories={categories}
-          groups={groups}
-          setCurrentlyOpenedPanels={setCurrentlyOpenedPanels}
-          currentlyOpenedPanels={currentlyOpenedPanels}
-        >
-          {' '}
-        </CategoryNavigator>
-      </ul>
+      <CategoryNavigator
+        key={uniqid()}
+        categories={categories}
+        groups={groups}
+        setCurrentlyOpenedPanels={setCurrentlyOpenedPanels}
+        currentlyOpenedPanels={currentlyOpenedPanels}
+      >
+        {' '}
+      </CategoryNavigator>
     </div>
   );
 };

@@ -48,7 +48,7 @@ export default function CategoryNavigatorSpider(props) {
               if (category.name === group.category) {
                 return (
                   <TreeItem key={uniqid()} nodeId={group.id} label={group.name}>
-                    <a
+                    {/* <a
                       onClick={() => {
                         chrome.runtime.sendMessage(
                           { directive: 'open-click', groupId: group.id },
@@ -59,34 +59,16 @@ export default function CategoryNavigatorSpider(props) {
                       }}
                     >
                       Open Tab
-                    </a>
-                    {/* <div>
-                      {group &&
-                        group.data.map((tab, key) => {
-                          return (
-                            <div
-                              style={{
-                                flexDirection: 'row',
-                              }}
-                              key={key}
-                            >
-                              <img
-                                style={{
-                                  alignSelf: 'stretch',
-                                  width: 16,
-                                  height: 16,
-                                }}
-                                src={tab.favIconUrl}
-                              ></img>
-
-                              <TreeItem
-                                nodeId={tab.id.toString()}
-                                label={tab.url}
-                              ></TreeItem>
-                            </div>
-                          );
-                        })}
-                    </div> */}
+                    </a> */}
+                    {group &&
+                      group.data.map((tab, key) => {
+                        return (
+                          <TreeItem
+                            nodeId={tab.id.toString()}
+                            label={tab.url}
+                          ></TreeItem>
+                        );
+                      })}
                   </TreeItem>
                 );
               } else {
