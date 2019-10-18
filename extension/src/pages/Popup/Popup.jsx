@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getStorageData } from '../Content/modules/storageHelpers';
 import CategoryNavigator from './Components/CategoryNavigator';
+import uniqid from 'uniqid';
 
 import './Popup.css';
 
@@ -30,7 +31,7 @@ const Popup = () => {
               chrome.runtime.sendMessage({ directive: 'save-click' }, function(
                 response
               ) {
-                //this.close();
+                this.close();
                 setRefresher(true);
               });
             }}
@@ -44,34 +45,37 @@ const Popup = () => {
               chrome.runtime.sendMessage({ directive: 'empty-click' }, function(
                 response
               ) {
-                //this.close();
+                this.close();
                 setRefresher(true);
               });
             }}
           >
-            Delete Tabs
+            Delete All Tabs
           </a>
         </li>
-      </ul>
-      <div className="sep"></div>
-      <ul className="vertical">
         <li>
           <a
             onClick={() => {
               chrome.runtime.sendMessage({ directive: 'view-click' }, function(
                 response
               ) {
-                //this.close();
+                // this.close();
               });
             }}
           >
             Console Tabs
           </a>
         </li>
+      </ul>
+      <div className="sep"></div>
+      <ul className="vertical">
         <CategoryNavigator
+          key={uniqid()}
           categories={categories}
           groups={groups}
-        ></CategoryNavigator>
+        >
+          {' '}
+        </CategoryNavigator>
       </ul>
     </div>
   );
@@ -97,7 +101,7 @@ function groupCategories(result) {
     const group = result[groups];
     categories.push(group.Category[0]);
   }
-  return categories;
+  return [...new Set(categories)];
 }
 
 export default Popup;

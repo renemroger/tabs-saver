@@ -1,62 +1,60 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import TreeView from '@material-ui/lab/TreeView';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import TreeItem from '@material-ui/lab/TreeItem';
 import OpenButton from './OpenButton';
-import './CategoryNavigator.css';
+import uniqid from 'uniqid';
 
-const useStyles = makeStyles({
-  span: {
-    float: 'left',
-  },
-});
+//TODO: REPLACE TI STYLEDTREEITEM : https://material-ui.com/components/tree-view/#gmail-clone
 
-export default function CategoryNavigatorSpider(props) {
+export default function CategoryNavigator(props) {
+  const useStyles = makeStyles({
+    root: {},
+  });
   const classes = useStyles();
   return (
-    <React.Fragment>
+    <TreeView
+      className={classes.root}
+      defaultCollapseIcon={<ExpandMoreIcon />}
+      defaultExpandIcon={<ChevronRightIcon />}
+    >
       {props.categories.map((category, key) => {
         return (
-          <React.Fragment>
-            <div className="dropdown">
-              <ul>
-                <li>
-                  <a key={key}>
-                    {category} <span className={classes.span}>{'<'}</span>
-                  </a>
-                </li>
-              </ul>
-              {props.groups.map((group, index) => {
+          <TreeItem key={uniqid()} nodeId={uniqid()} label={category}>
+            {props.groups.map((group, index) => {
+              if (category === group.category) {
                 return (
-                  group.category === category && (
-                    <div className="dropdown-content">
-                      <ul className="vertical">
-                        <li>
-                          <a
-                            onClick={() => {
-                              chrome.runtime.sendMessage(
-                                { directive: 'open-click', groupId: group.id },
-                                function(response) {
-                                  //this.close();
-                                }
-                              );
-                            }}
-                          >
-                            Open Tab
-                          </a>
-                        </li>
-                      </ul>
+                  <TreeItem key={uniqid()} nodeId={uniqid()} label={group.name}>
+                    <a
+                      onClick={() => {
+                        chrome.runtime.sendMessage(
+                          { directive: 'open-click', groupId: group.id },
+                          function(response) {
+                            this.close();
+                          }
+                        );
+                      }}
+                    >
+                      Open Tab
+                    </a>
+                    {
                       <OpenButton
-                        key={index}
+                        key={uniqid()}
                         group={group}
                         index={index}
                       ></OpenButton>
-                    </div>
-                  )
+                    }
+                  </TreeItem>
                 );
-              })}
-            </div>
-          </React.Fragment>
+              } else {
+                return <React.Fragment key={uniqid()}></React.Fragment>;
+              }
+            })}
+          </TreeItem>
         );
       })}
-    </React.Fragment>
+    </TreeView>
   );
 }

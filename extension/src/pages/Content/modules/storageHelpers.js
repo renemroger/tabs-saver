@@ -20,8 +20,8 @@ const setStorageData = (data) =>
   );
 
 async function saveData(tabs) {
-  let groupName = prompt();
-  let categoryName = prompt();
+  let groupName = prompt('Enter Group name');
+  let categoryName = prompt('Enter Category name');
   if (!categoryName) categoryName = 'Non-Default';
 
   if (groupName) {
