@@ -9,16 +9,14 @@ const Popup = () => {
   const [groups, setGroups] = useState([]);
   const [categories, setCategories] = useState([]);
   const [refresher, setRefresher] = useState(false);
+  const [currentlyOpenedPanels, setCurrentlyOpenedPanels] = useState([]);
 
   useEffect(() => {
     getStorageData(null).then((result) => {
-      let tabs = groupTabs(result);
-      let categories = groupCategories(result);
-      console.log(groupTabs(result));
-      console.log(groupCategories(result));
-      setGroups(tabs);
-      setCategories(categories);
+      setGroups(groupTabs(result));
+      setCategories(groupCategories(result));
       setRefresher(false);
+      console.log(currentlyOpenedPanels);
     });
   }, [refresher]);
 
@@ -31,7 +29,7 @@ const Popup = () => {
               chrome.runtime.sendMessage({ directive: 'save-click' }, function(
                 response
               ) {
-                this.close();
+                //this.close();
                 setRefresher(true);
               });
             }}
@@ -45,7 +43,7 @@ const Popup = () => {
               chrome.runtime.sendMessage({ directive: 'empty-click' }, function(
                 response
               ) {
-                this.close();
+                //this.close();
                 setRefresher(true);
               });
             }}
@@ -68,15 +66,15 @@ const Popup = () => {
         </li>
       </ul>
       <div className="sep"></div>
-      <ul className="vertical">
-        <CategoryNavigator
-          key={uniqid()}
-          categories={categories}
-          groups={groups}
-        >
-          {' '}
-        </CategoryNavigator>
-      </ul>
+      <CategoryNavigator
+        key={uniqid()}
+        categories={categories}
+        groups={groups}
+        setCurrentlyOpenedPanels={setCurrentlyOpenedPanels}
+        currentlyOpenedPanels={currentlyOpenedPanels}
+      >
+        {' '}
+      </CategoryNavigator>
     </div>
   );
 };
@@ -95,13 +93,14 @@ function groupTabs(result) {
   return tabs;
 }
 
+//get unique categories. object contains name and id
 function groupCategories(result) {
-  let categories = [];
+  const categories = [];
   for (const groups in result) {
     const group = result[groups];
-    categories.push(group.Category[0]);
+    categories.push({ name: group.Category[0] });
   }
-  return [...new Set(categories)];
+  return [...new Map(categories.map((item) => [item['name'], item])).values()];
 }
 
 export default Popup;
