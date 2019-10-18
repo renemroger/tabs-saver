@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getStorageData } from '../Content/modules/storageHelpers';
 import CategoryNavigator from './Components/CategoryNavigator';
+import uniqid from 'uniqid';
 
 import './Popup.css';
 
@@ -16,6 +17,7 @@ const Popup = () => {
       setCategories(categories);
     });
   }, []);
+  console.log(groups);
 
   return (
     <div id="main-menu" className="layout-view">
@@ -26,7 +28,7 @@ const Popup = () => {
               chrome.runtime.sendMessage({ directive: 'save-click' }, function(
                 response
               ) {
-                //this.close();
+                this.close();
               });
             }}
           >
@@ -39,30 +41,34 @@ const Popup = () => {
               chrome.runtime.sendMessage({ directive: 'empty-click' }, function(
                 response
               ) {
-                //this.close();
+                this.close();
               });
             }}
           >
-            Delete Tabs
+            Delete All Tabs
           </a>
         </li>
-      </ul>
-      <div className="sep"></div>
-      <ul className="vertical">
         <li>
           <a
             onClick={() => {
               chrome.runtime.sendMessage({ directive: 'view-click' }, function(
                 response
               ) {
-                //this.close();
+                // this.close();
               });
             }}
           >
             Console Tabs
           </a>
         </li>
-        <CategoryNavigator categories={categories} groups={groups}>
+      </ul>
+      <div className="sep"></div>
+      <ul className="vertical">
+        <CategoryNavigator
+          key={uniqid()}
+          categories={categories}
+          groups={groups}
+        >
           {' '}
         </CategoryNavigator>
       </ul>
@@ -90,7 +96,7 @@ function groupCategories(result) {
     const group = result[groups];
     categories.push(group.Category[0]);
   }
-  return categories;
+  return [...new Set(categories)];
 }
 
 export default Popup;

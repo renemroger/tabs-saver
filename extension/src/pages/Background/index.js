@@ -14,7 +14,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   switch (request.directive) {
     case 'save-click':
       getAllTabs().then((tabs) => {
-        // console.log(tabs, 'tabs from getAllTabs');
         saveData(tabs);
       });
       break;
