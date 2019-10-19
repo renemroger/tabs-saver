@@ -149,6 +149,7 @@ export default function StyledCategoryNavigator(props) {
       defaultExpanded={props.currentlyOpenedPanels}
       onNodeToggle={onNodeToggle}
     >
+      {/*TODO: could be moved into function */}
       {props.categories.map((category, key) => {
         return (
           <StyledTreeItem
@@ -158,6 +159,7 @@ export default function StyledCategoryNavigator(props) {
             labelIcon={Label}
             labelInfo={nOfGroupsPerCategory[category.name].toString()}
           >
+            {/*TODO: could be moved into function */}
             {groups.map((group, index) => {
               const GROUPCURRENTID = uniqid();
 
@@ -169,6 +171,11 @@ export default function StyledCategoryNavigator(props) {
                     nodeId={group.id}
                     labelText={group.name}
                     labelIcon={Label}
+                    //TODO: Icon from tab are .ICO
+                    //use https://www.npmjs.com/package/ico-to-png to transform ICO to PNG
+                    //use https://www.npmjs.com/package/potrace to transform PNG to SVG
+                    // https://material-ui.com/components/icons/#svgicon to display SVG
+
                     labelInfo={group.data.length.toString()}
                   >
                     <div style={{ width: 450 }}>

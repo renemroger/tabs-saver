@@ -5,8 +5,20 @@
   visibility: hidden;
   height: 0;
 }
+
 .clearfloat {
   zoom: 1;
+}
+.makeStyles-form-1 {
+  margin: 0px;
+  padding: 0px 24px;
+}
+
+.MuiDialogContent-root {
+  position: relative;
+  height: auto;
+  overflow: hidden;
+  min-height: 100px;
 }
 body {
   color: #303030;
@@ -14,6 +26,8 @@ body {
   margin: 0;
   min-width: 250px;
   text-align: center;
+  width: 450px;
+  padding: 10px;
 }
 ul {
   padding: 0;
