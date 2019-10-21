@@ -1,6 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
+
+import PropTypes from 'prop-types';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 import Typography from '@material-ui/core/Typography';
@@ -68,6 +69,7 @@ function StyledTreeItem(props) {
     labelInfo,
     color,
     bgColor,
+    Tabs,
     ...other
   } = props;
   return (
@@ -106,12 +108,6 @@ StyledTreeItem.propTypes = {
   labelInfo: PropTypes.string,
   labelText: PropTypes.string.isRequired,
 };
-
-const useStyles = makeStyles({
-  root: {
-    width: 420,
-  },
-});
 const getGroupsCount = (groups) => {
   let nOfGroupsPerCategory = {};
   for (const g in groups) {
@@ -125,7 +121,6 @@ const getGroupsCount = (groups) => {
 };
 
 export default function StyledCategoryNavigator(props) {
-  const classes = useStyles();
   const groups = props.groups;
 
   const onNodeToggle = (nodeId, isExpanded) => {
@@ -138,11 +133,14 @@ export default function StyledCategoryNavigator(props) {
     }
   };
 
+  const nameShortener = (tabName, size) => {
+    return `${tabName.slice(0, size)}...`;
+  };
+
   const nOfGroupsPerCategory = getGroupsCount(groups);
 
   return (
     <TreeView
-      className={classes.root}
       defaultCollapseIcon={<ArrowDropDownIcon />}
       defaultExpandIcon={<ArrowRightIcon />}
       defaultEndIcon={<div style={{ width: 24 }} />}
@@ -229,7 +227,7 @@ export default function StyledCategoryNavigator(props) {
                           <StyledTreeItem
                             key={uniqid()}
                             nodeId={tab.id.toString()}
-                            labelText={tab.url}
+                            labelText={nameShortener(tab.url, 40)}
                             labelIcon={Link} //TODO: Dynamically load items from tab.favIcon
                           ></StyledTreeItem>
                         );

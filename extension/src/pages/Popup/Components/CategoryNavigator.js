@@ -13,7 +13,6 @@ const useStyles = makeStyles({
 });
 
 export default function CategoryNavigatorSpider(props) {
-  //TODO: REPLACE TI STYLEDTREEITEM : https://material-ui.com/components/tree-view/#gmail-clone
   const useStyles = makeStyles({
     root: {},
   });

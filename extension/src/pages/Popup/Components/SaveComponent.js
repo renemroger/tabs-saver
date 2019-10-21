@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -14,7 +13,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 
-const useStyles = makeStyles((theme) => ({
+import Button from '@material-ui/core/Button';
+import AddCircleOutlined from '@material-ui/icons/AddCircleOutlined';
+import IconButton from '@material-ui/core/IconButton';
+
+const useStyles = makeStyles(() => ({
   form: {
     display: 'flex',
     flexDirection: 'row',
@@ -22,8 +25,15 @@ const useStyles = makeStyles((theme) => ({
     width: 'fit-content',
   },
   formControl: {
-    marginTop: theme.spacing(2),
-    minWidth: 120,
+    margin: '16px, 0px',
+    minWidth: 220,
+  },
+  DialogTitle: {
+    alignSelf: 'baseline',
+  },
+  plus: {
+    alignSelf: 'flex-start',
+    padding: '8px 24px',
   },
 }));
 
@@ -37,19 +47,17 @@ export default function FormDialog(props) {
   });
   const [categoryName, setcategoryName] = React.useState('');
 
-  React.useEffect(() => {
-    console.log('run');
-  }, []);
-
   const handleClickOpen = () => {
     console.log('open');
-    document.body.style.height = '440px'; //TODO: make this dynamic
+    document.body.style.height = '440px';
+    document.body.style.width = '470px'; //TODO: make this dynamic
 
     setOpen(true);
   };
 
   const handleClose = () => {
     document.body.style.height = '0px';
+    document.body.style.width = '470px'; //TODO: make this dynamic
     setOpen(false);
   };
 
@@ -68,28 +76,9 @@ export default function FormDialog(props) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Saving</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Group name"
-            type="groupName"
-            fullWidth
-          />
-        </DialogContent>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="New Category"
-            type="categoryName"
-            fullWidth
-          />
-        </DialogContent>
-
+        <DialogTitle className={classes.DialogTitle} id="form-dialog-title">
+          Save Tab
+        </DialogTitle>
         <form className={classes.form} noValidate>
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="max-width">Category </InputLabel>
@@ -111,6 +100,32 @@ export default function FormDialog(props) {
             </Select>
           </FormControl>
         </form>
+
+        <IconButton
+          style={{
+            height: '16px',
+            width: '16px',
+            padding: '0px',
+            margin: '10px 24px',
+          }}
+          aria-label="Add"
+          onClick={() => {
+            console.log('clicked');
+          }}
+        >
+          <AddCircleOutlined />
+        </IconButton>
+
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Group Name"
+            type="groupName"
+            fullWidth
+          />
+        </DialogContent>
 
         <DialogActions>
           <Button onClick={handleClose} color="primary">
