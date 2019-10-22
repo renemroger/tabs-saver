@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getStorageData } from '../Content/modules/storageHelpers';
 import CategoryNavigator from './Components/CategoryNavigator';
 import StyledCategoryNavigator from './Components/StyledCategoryNavigator';
-import SaveComponent from './Components/SaveComponent';
+import SaveTab from './Components/SaveTab';
 import uniqid from 'uniqid';
 
 import './Popup.css';
@@ -54,7 +54,7 @@ const Popup = () => {
         </li>
       </ul>
       <div className="sep"></div>
-      <SaveComponent categories={categories} />
+      <SaveTab categories={categories} />
       <div className="sep"></div>
       <StyledCategoryNavigator
         key={uniqid()}

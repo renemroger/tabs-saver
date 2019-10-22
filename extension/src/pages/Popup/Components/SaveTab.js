@@ -16,6 +16,7 @@ import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import AddCircleOutlined from '@material-ui/icons/AddCircleOutlined';
 import IconButton from '@material-ui/core/IconButton';
+import NewCategory from './NewCategory';
 
 const useStyles = makeStyles(() => ({
   form: {
@@ -37,7 +38,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function FormDialog(props) {
+export default function SaveTab(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -46,10 +47,11 @@ export default function FormDialog(props) {
     width: window.innerWidth,
   });
   const [categoryName, setcategoryName] = React.useState('');
+  const [showNewCategory, setShowNewCategory] = React.useState(false);
 
   const handleClickOpen = () => {
     console.log('open');
-    document.body.style.height = '440px';
+    document.body.style.height = '330px';
     document.body.style.width = '470px'; //TODO: make this dynamic
 
     setOpen(true);
@@ -70,72 +72,59 @@ export default function FormDialog(props) {
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Save all windows
       </Button>
-      <Dialog
-        fullScreen={true}
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle className={classes.DialogTitle} id="form-dialog-title">
-          Save Tab
-        </DialogTitle>
-        <form className={classes.form} noValidate>
-          <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="max-width">Category </InputLabel>
-            <Select
-              value={categoryName}
-              onChange={handleCategoryNameChange}
-              inputProps={{
-                name: 'existing-category',
-                id: 'existing-category',
-              }}
-            >
-              {props.categories.map((category, key) => {
-                return (
-                  <MenuItem key={category.name} value={category.name}>
-                    {category.name}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-        </form>
-
-        <IconButton
-          style={{
-            height: '16px',
-            width: '16px',
-            padding: '0px',
-            margin: '10px 24px',
-          }}
-          aria-label="Add"
-          onClick={() => {
-            console.log('clicked');
-          }}
+      {!showNewCategory && (
+        <Dialog
+          fullScreen={true}
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="form-dialog-title"
         >
-          <AddCircleOutlined />
-        </IconButton>
-
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Group Name"
-            type="groupName"
-            fullWidth
-          />
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
+          <DialogTitle className={classes.DialogTitle} id="form-dialog-title">
+            Save Tab
+          </DialogTitle>
+          <form className={classes.form} noValidate>
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="max-width">Category </InputLabel>
+              <Select
+                value={categoryName}
+                onChange={handleCategoryNameChange}
+                inputProps={{
+                  name: 'existing-category',
+                  id: 'existing-category',
+                }}
+              >
+                {props.categories.map((category, key) => {
+                  return (
+                    <MenuItem key={category.name} value={category.name}>
+                      {category.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </form>
+          <NewCategory />
+          <DialogContent>
+            <TextField
+              autoComplete="off"
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Group Name"
+              type="groupName"
+              fullWidth
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleClose} color="primary">
+              Save
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </div>
   );
 }
