@@ -16,25 +16,18 @@ import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import AddCircleOutlined from '@material-ui/icons/AddCircleOutlined';
 import IconButton from '@material-ui/core/IconButton';
-import NewCategory from './NewCategory';
 
 const useStyles = makeStyles(() => ({
   form: {
     display: 'flex',
     flexDirection: 'row',
-    margin: '0px',
-    width: 'fit-content',
+    padding: '8px 24px',
   },
   formControl: {
-    margin: '16px, 0px',
-    minWidth: 220,
+    minWidth: '100%',
   },
   DialogTitle: {
     alignSelf: 'baseline',
-  },
-  plus: {
-    alignSelf: 'flex-start',
-    padding: '8px 24px',
   },
 }));
 
@@ -51,7 +44,7 @@ export default function SaveTab(props) {
 
   const handleClickOpen = () => {
     console.log('open');
-    document.body.style.height = '330px';
+    document.body.style.height = '280px';
     document.body.style.width = '470px'; //TODO: make this dynamic
 
     setOpen(true);
@@ -72,59 +65,57 @@ export default function SaveTab(props) {
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Save all windows
       </Button>
-      {!showNewCategory && (
-        <Dialog
-          fullScreen={true}
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle className={classes.DialogTitle} id="form-dialog-title">
-            Save Tab
-          </DialogTitle>
-          <form className={classes.form} noValidate>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="max-width">Category </InputLabel>
-              <Select
-                value={categoryName}
-                onChange={handleCategoryNameChange}
-                inputProps={{
-                  name: 'existing-category',
-                  id: 'existing-category',
-                }}
-              >
-                {props.categories.map((category, key) => {
-                  return (
-                    <MenuItem key={category.name} value={category.name}>
-                      {category.name}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-          </form>
-          <NewCategory />
-          <DialogContent>
-            <TextField
-              autoComplete="off"
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Group Name"
-              type="groupName"
-              fullWidth
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleClose} color="primary">
-              Save
-            </Button>
-          </DialogActions>
-        </Dialog>
-      )}
+
+      <Dialog
+        fullScreen={true}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle className={classes.DialogTitle} id="form-dialog-title">
+          Saving Tabs
+        </DialogTitle>
+        <form className={classes.form} noValidate>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="max-width">Category </InputLabel>
+            <Select
+              value={categoryName}
+              onChange={handleCategoryNameChange}
+              inputProps={{
+                name: 'existing-category',
+                id: 'existing-category',
+              }}
+            >
+              {props.categories.map((category, key) => {
+                return (
+                  <MenuItem key={category.name} value={category.name}>
+                    {category.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </form>
+        <DialogContent>
+          <TextField
+            autoComplete="off"
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Group Name"
+            type="groupName"
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
