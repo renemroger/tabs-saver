@@ -38,7 +38,7 @@ async function saveData(
       },
     }).then((data) => {
       getStorageData(null).then((result) => {
-        console.log(result);
+        //console.log(result);
       });
     });
   });

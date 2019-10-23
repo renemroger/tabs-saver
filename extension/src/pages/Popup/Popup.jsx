@@ -33,18 +33,6 @@ const Popup = () => {
         <li>
           <a
             onClick={() => {
-              saveData().then(() => {
-                console.log('refresh');
-                setRefresher(true);
-              });
-            }}
-          >
-            Save Tabs
-          </a>
-        </li>
-        <li>
-          <a
-            onClick={() => {
               chrome.runtime.sendMessage({ directive: 'empty-click' }, function(
                 response
               ) {
@@ -57,7 +45,7 @@ const Popup = () => {
         </li>
       </ul>
       <div className="sep"></div>
-      <SaveTab categories={categories} />
+      <SaveTab categories={categories} setRefresher={setRefresher} />
       <div className="sep"></div>
       <StyledCategoryNavigator
         key={uniqid()}

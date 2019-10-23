@@ -19,7 +19,6 @@ function getAllCategories(result) {
     const group = result[groups];
     categories.push({ name: group.category });
   }
-  console.log(categories);
   //filter duplicate categories
   return [...new Map(categories.map((item) => [item['name'], item])).values()];
 }
