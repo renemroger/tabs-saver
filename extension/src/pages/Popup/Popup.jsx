@@ -1,6 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react';
-import { getStorageData } from '../Content/modules/storageHelpers';
+import { getStorageData, saveData } from '../Content/modules/storageHelpers';
 import CategoryNavigator from './Components/CategoryNavigator';
+import { getAllGroups, getAllCategories } from '../Content/modules/tabsHelpers';
 import StyledCategoryNavigator from './Components/StyledCategoryNavigator';
 import SaveTab from './Components/SaveTab';
 import uniqid from 'uniqid';
@@ -14,11 +17,14 @@ const Popup = () => {
   const [currentlyOpenedPanels, setCurrentlyOpenedPanels] = useState([]);
 
   useEffect(() => {
-    getStorageData(null).then((result) => {
-      setGroups(groupTabs(result));
-      setCategories(groupCategories(result));
-      setRefresher(false);
-    });
+    getStorageData(null)
+      .then((result) => {
+        setCategories(getAllCategories(result));
+        setGroups(getAllGroups(result));
+      })
+      .then(() => {
+        setRefresher(false);
+      });
   }, [refresher]);
 
   return (
@@ -27,10 +33,8 @@ const Popup = () => {
         <li>
           <a
             onClick={() => {
-              chrome.runtime.sendMessage({ directive: 'save-click' }, function(
-                response
-              ) {
-                //this.close();
+              saveData().then(() => {
+                console.log('refresh');
                 setRefresher(true);
               });
             }}
@@ -44,7 +48,6 @@ const Popup = () => {
               chrome.runtime.sendMessage({ directive: 'empty-click' }, function(
                 response
               ) {
-                //this.close();
                 setRefresher(true);
               });
             }}
@@ -68,29 +71,5 @@ const Popup = () => {
     </div>
   );
 };
-
-function groupTabs(result) {
-  let tabs = [];
-  for (const groups in result) {
-    const group = result[groups];
-    tabs.push({
-      name: group.GroupName[0],
-      category: group.Category[0],
-      data: group.Data[0],
-      id: group.Id[0],
-    });
-  }
-  return tabs;
-}
-
-//get unique categories. object contains name and id
-function groupCategories(result) {
-  const categories = [];
-  for (const groups in result) {
-    const group = result[groups];
-    categories.push({ name: group.Category[0] });
-  }
-  return [...new Map(categories.map((item) => [item['name'], item])).values()];
-}
 
 export default Popup;

@@ -2,6 +2,7 @@ import { getStorageData } from './storageHelpers';
 
 function printGroups(key) {
   getStorageData(key).then((result) => {
+    //testing if we got an object back.
     if (Object.entries(result).length !== 0 && result.constructor === Object) {
       for (const groups in result) {
         const group = result[groups];

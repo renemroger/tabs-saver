@@ -7,13 +7,8 @@ import TreeItem from '@material-ui/lab/TreeItem';
 import Typography from '@material-ui/core/Typography';
 import Label from '@material-ui/icons/Label';
 import Link from '@material-ui/icons/Link';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import InfoIcon from '@material-ui/icons/Info';
-import ForumIcon from '@material-ui/icons/Forum';
-import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import Icon from '@material-ui/core/Icon';
 import Box from '@material-ui/core/Box';
 import uniqid from 'uniqid';
 
@@ -108,21 +103,8 @@ StyledTreeItem.propTypes = {
   labelInfo: PropTypes.string,
   labelText: PropTypes.string.isRequired,
 };
-const getGroupsCount = (groups) => {
-  let nOfGroupsPerCategory = {};
-  for (const g in groups) {
-    if (nOfGroupsPerCategory[groups[g].category]) {
-      nOfGroupsPerCategory[groups[g].category]++;
-    } else {
-      nOfGroupsPerCategory[groups[g].category] = 1;
-    }
-  }
-  return nOfGroupsPerCategory;
-};
 
 export default function StyledCategoryNavigator(props) {
-  const groups = props.groups;
-
   const onNodeToggle = (nodeId, isExpanded) => {
     if (isExpanded) {
       props.setCurrentlyOpenedPanels((arr) => [...arr, nodeId]);
@@ -137,8 +119,6 @@ export default function StyledCategoryNavigator(props) {
     return `${tabName.slice(0, size)}...`;
   };
 
-  const nOfGroupsPerCategory = getGroupsCount(groups);
-
   return (
     <TreeView
       defaultCollapseIcon={<ArrowDropDownIcon />}
@@ -147,100 +127,102 @@ export default function StyledCategoryNavigator(props) {
       defaultExpanded={props.currentlyOpenedPanels}
       onNodeToggle={onNodeToggle}
     >
-      {/*TODO: could be moved into function */}
-      {props.categories.map((category, key) => {
-        return (
-          <StyledTreeItem
-            key={uniqid()}
-            nodeId={category.name}
-            labelText={category.name}
-            labelIcon={Label}
-            labelInfo={nOfGroupsPerCategory[category.name].toString()}
-          >
-            {/*TODO: could be moved into function */}
-            {groups.map((group, index) => {
-              const GROUPCURRENTID = uniqid();
+      {props.categories &&
+        props.categories.map((category, key) => {
+          return (
+            <StyledTreeItem
+              key={uniqid()}
+              nodeId={category.name}
+              labelText={category.name}
+              labelIcon={Label}
+              // labelInfo={'1'}
+            >
+              {/*TODO: could be moved into function */}
+              {props.groups &&
+                props.groups.map((group, index) => {
+                  //filtering out groups that dont belong to right category TODO: Could be improved
+                  if (category.name === group.category) {
+                    return (
+                      <StyledTreeItem
+                        key={uniqid()}
+                        nodeId={group.id}
+                        labelText={group.name}
+                        labelIcon={Label}
+                        //TODO: Icon from tab are .ICO
+                        //use https://www.npmjs.com/package/ico-to-png to transform ICO to PNG
+                        //use https://www.npmjs.com/package/potrace to transform PNG to SVG
+                        // https://material-ui.com/components/icons/#svgicon to display SVG
 
-              //filtering out groups that dont belong to right category TODO: Could be improved
-              if (category.name === group.category) {
-                return (
-                  <StyledTreeItem
-                    key={uniqid()}
-                    nodeId={group.id}
-                    labelText={group.name}
-                    labelIcon={Label}
-                    //TODO: Icon from tab are .ICO
-                    //use https://www.npmjs.com/package/ico-to-png to transform ICO to PNG
-                    //use https://www.npmjs.com/package/potrace to transform PNG to SVG
-                    // https://material-ui.com/components/icons/#svgicon to display SVG
-
-                    labelInfo={group.data.length.toString()}
-                  >
-                    <div style={{ width: 450 }}>
-                      <Box display="flex" p={1} bgcolor="background.paper">
-                        <Box flexGrow={1}>
-                          <a
-                            style={{
-                              margin: 0,
-                              padding: 0,
-                              backgroundColor: '#A4EBC7',
-                            }}
-                            onClick={() => {
-                              chrome.runtime.sendMessage(
-                                { directive: 'open-click', groupId: group.id },
-                                function(response) {
-                                  //this.close();
-                                }
-                              );
-                            }}
-                          >
-                            Open Tab
-                          </a>
-                        </Box>
-                        <Box flexGrow={1}>
-                          <a
-                            style={{
-                              margin: 0,
-                              padding: 0,
-                              backgroundColor: '#00DFFF',
-                            }}
-                            onClick={() => {
-                              chrome.runtime.sendMessage(
-                                {
-                                  directive: 'delete-click',
-                                  groupId: group.id,
-                                },
-                                function(response) {
-                                  //this.close();
-                                }
-                              );
-                            }}
-                          >
-                            Delete Group
-                          </a>
-                        </Box>
-                      </Box>
-                    </div>
-                    {group &&
-                      group.data.map((tab, key) => {
-                        return (
-                          <StyledTreeItem
-                            key={uniqid()}
-                            nodeId={tab.id.toString()}
-                            labelText={nameShortener(tab.url, 40)}
-                            labelIcon={Link} //TODO: Dynamically load items from tab.favIcon
-                          ></StyledTreeItem>
-                        );
-                      })}
-                  </StyledTreeItem>
-                );
-              } else {
-                return <React.Fragment key={uniqid()}></React.Fragment>;
-              }
-            })}
-          </StyledTreeItem>
-        );
-      })}
+                        labelInfo={'2'}
+                      >
+                        <div style={{ width: 450 }}>
+                          <Box display="flex" p={1} bgcolor="background.paper">
+                            <Box flexGrow={1}>
+                              <a
+                                style={{
+                                  margin: 0,
+                                  padding: 0,
+                                  backgroundColor: '#A4EBC7',
+                                }}
+                                onClick={() => {
+                                  chrome.runtime.sendMessage(
+                                    {
+                                      directive: 'open-click',
+                                      groupId: group.id,
+                                    },
+                                    function(response) {
+                                      //this.close();
+                                    }
+                                  );
+                                }}
+                              >
+                                Open Tab
+                              </a>
+                            </Box>
+                            <Box flexGrow={1}>
+                              <a
+                                style={{
+                                  margin: 0,
+                                  padding: 0,
+                                  backgroundColor: '#00DFFF',
+                                }}
+                                onClick={() => {
+                                  chrome.runtime.sendMessage(
+                                    {
+                                      directive: 'delete-click',
+                                      groupId: group.id,
+                                    },
+                                    function(response) {
+                                      //this.close();
+                                    }
+                                  );
+                                }}
+                              >
+                                Delete Group
+                              </a>
+                            </Box>
+                          </Box>
+                        </div>
+                        {group &&
+                          group.data.map((tab, key) => {
+                            return (
+                              <StyledTreeItem
+                                key={uniqid()}
+                                nodeId={tab.id.toString()}
+                                labelText={nameShortener(tab.url, 40)}
+                                labelIcon={Link} //TODO: Dynamically load items from tab.favIcon
+                              ></StyledTreeItem>
+                            );
+                          })}
+                      </StyledTreeItem>
+                    );
+                  } else {
+                    return <React.Fragment key={uniqid()}></React.Fragment>;
+                  }
+                })}
+            </StyledTreeItem>
+          );
+        })}
     </TreeView>
   );
 }

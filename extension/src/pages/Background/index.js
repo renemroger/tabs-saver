@@ -2,20 +2,12 @@ import '../../assets/img/icon16.png';
 import '../../assets/img/icon32.png';
 import '../../assets/img/icon64.png';
 import '../../assets/img/icon128.png';
-import { printGroups } from '../Content/modules/funcionalHelpers';
-import { getAllTabs } from '../Content/modules/tabsHelpers';
-import {
-  saveData,
-  setStorageData,
-  getStorageData,
-} from '../Content/modules/storageHelpers';
+import { saveData } from '../Content/modules/storageHelpers';
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   switch (request.directive) {
     case 'save-click':
-      getAllTabs().then((tabs) => {
-        saveData(tabs);
-      });
+      saveData();
       break;
     case 'open-click':
       //get priveiously saved tabs
@@ -55,9 +47,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         }
         console.log('all tabs removed');
       });
-      break;
-    case 'view-click':
-      printGroups(null); //null as argument finds all storedData
       break;
     default:
       alert('Case not found');

@@ -1,5 +1,5 @@
 import uniqid from 'uniqid';
-import { compose } from '@material-ui/system';
+import { getAllTabs } from './tabsHelpers';
 
 const getStorageData = (key) =>
   new Promise((resolve, reject) =>
@@ -19,26 +19,29 @@ const setStorageData = (data) =>
     )
   );
 
-async function saveData(tabs) {
-  let categoryName = prompt('Enter Category name');
-  let groupName = prompt('Enter Group name');
-  if (!categoryName) categoryName = 'Others';
+async function saveData(
+  categoryName = prompt('Enter Category name'),
+  groupName = prompt('Enter Group name')
+) {
+  let userId = 'test';
+  getAllTabs().then((tabs) => {
+    if (!categoryName) categoryName = 'default';
+    if (!groupName) groupName = 'default';
 
-  if (groupName) {
     let groupKey = uniqid('groupKey-');
-    await setStorageData({
+
+    setStorageData({
       [groupKey]: {
-        Data: [tabs],
-        GroupName: [groupName],
-        Category: [categoryName],
-        Id: [groupKey],
+        name: groupName,
+        category: categoryName,
+        tabs: tabs,
       },
     }).then((data) => {
-      console.log(data, 'was saved');
+      getStorageData(null).then((result) => {
+        console.log(result);
+      });
     });
-  } else {
-    alert('items were not saved');
-  }
+  });
 }
 
 export { saveData, setStorageData, getStorageData };

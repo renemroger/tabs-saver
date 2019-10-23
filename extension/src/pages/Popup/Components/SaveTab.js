@@ -8,7 +8,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
@@ -16,6 +15,7 @@ import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import AddCircleOutlined from '@material-ui/icons/AddCircleOutlined';
 import IconButton from '@material-ui/core/IconButton';
+import CreatableSingle from './CreatableSingle';
 
 const useStyles = makeStyles(() => ({
   form: {
@@ -39,7 +39,7 @@ export default function SaveTab(props) {
     height: window.innerHeight,
     width: window.innerWidth,
   });
-  const [categoryName, setcategoryName] = React.useState('');
+  const [categoryName, setCategoryName] = React.useState('');
   const [showNewCategory, setShowNewCategory] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -57,9 +57,14 @@ export default function SaveTab(props) {
   };
 
   const handleCategoryNameChange = (event) => {
-    setcategoryName(event.target.value);
+    setCategoryName(event.target.value);
   };
 
+  const handleGroupNameChange = (event) => {
+    setShowNewCategory(event.target.value);
+  };
+
+  //TODO: https://react-select.com/creatable
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -78,22 +83,7 @@ export default function SaveTab(props) {
         <form className={classes.form} noValidate>
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="max-width">Category </InputLabel>
-            <Select
-              value={categoryName}
-              onChange={handleCategoryNameChange}
-              inputProps={{
-                name: 'existing-category',
-                id: 'existing-category',
-              }}
-            >
-              {props.categories.map((category, key) => {
-                return (
-                  <MenuItem key={category.name} value={category.name}>
-                    {category.name}
-                  </MenuItem>
-                );
-              })}
-            </Select>
+            <CreatableSingle categories={props.categories} />
           </FormControl>
         </form>
         <DialogContent>
