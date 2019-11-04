@@ -2,7 +2,6 @@ import '../../assets/img/icon16.png';
 import '../../assets/img/icon32.png';
 import '../../assets/img/icon64.png';
 import '../../assets/img/icon128.png';
-import { saveData } from '../Content/modules/storageHelpers';
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   switch (request.directive) {
@@ -16,7 +15,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
           Object.entries(result).length !== 0 &&
           result.constructor === Object
         ) {
-          console.log(result[request.groupId].tabs);
           chrome.windows.create({}, function() {
             //create tabs in new window
             for (const tab of result[request.groupId].tabs) {
@@ -44,6 +42,15 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
           console.error(error);
         }
         console.log('all tabs removed');
+      });
+      break;
+    case 'delete-click':
+      console.log('delete');
+      chrome.storage.sync.remove(request.groupId, function() {
+        var error = chrome.runtime.lastError;
+        if (error) {
+          console.error(error);
+        }
       });
       break;
     default:

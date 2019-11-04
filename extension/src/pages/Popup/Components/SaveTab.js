@@ -3,18 +3,10 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles } from '@material-ui/core/styles';
-import Switch from '@material-ui/core/Switch';
 
 import Button from '@material-ui/core/Button';
-import AddCircleOutlined from '@material-ui/icons/AddCircleOutlined';
-import IconButton from '@material-ui/core/IconButton';
 import CategorySelector from './CategorySelector';
 
 import { saveData } from '../../Content/modules/storageHelpers';
@@ -37,11 +29,6 @@ const useStyles = makeStyles(() => ({
 export default function SaveTab(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-
-  const [dimensions, setDimensions] = React.useState({
-    height: window.innerHeight,
-    width: window.innerWidth,
-  });
   const [categoryName, setCategoryName] = React.useState('default');
   const [groupName, setGroupName] = React.useState('default');
 
@@ -78,9 +65,8 @@ export default function SaveTab(props) {
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Save all windows
+        Save all Tabs
       </Button>
-
       <Dialog
         fullScreen={true}
         open={open}
@@ -97,7 +83,6 @@ export default function SaveTab(props) {
         <DialogContent>
           <TextField
             autoComplete="off"
-            autoFocus="false"
             margin="dense"
             id="name"
             onChange={handleGroupNameChange}

@@ -10,10 +10,11 @@ import Label from '@material-ui/icons/Label';
 import Link from '@material-ui/icons/Link';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import Box from '@material-ui/core/Box';
 import uniqid from 'uniqid';
 
 import Tabs from './Tabs';
+import DeleteButton from './DeleteButton';
+import OpenAll from './OpenAll';
 
 //TODO: REMOVE UNNECESARY CODE
 const useTreeItemStyles = makeStyles((theme) => ({
@@ -108,6 +109,7 @@ StyledTreeItem.propTypes = {
 };
 
 export default function StyledCategoryNavigator(props) {
+  const [displayDelete, setDisplayDelete] = React.useState(true);
   const onNodeToggle = (nodeId, isExpanded) => {
     if (isExpanded) {
       props.setCurrentlyOpenedPanels((arr) => [...arr, nodeId]);
@@ -163,53 +165,26 @@ export default function StyledCategoryNavigator(props) {
 
                         labelInfo={'2'}
                       >
-                        <div style={{ width: 450 }}>
-                          <Box display="flex" p={1} bgcolor="background.paper">
-                            <Box flexGrow={1}>
-                              <a
-                                style={{
-                                  margin: 0,
-                                  padding: 0,
-                                  backgroundColor: '#A4EBC7',
-                                }}
-                                onClick={() => {
-                                  chrome.runtime.sendMessage(
-                                    {
-                                      directive: 'open-click',
-                                      groupId: group.id,
-                                    },
-                                    function(response) {
-                                      //this.close();
-                                    }
-                                  );
-                                }}
-                              >
-                                Open Tab
-                              </a>
-                            </Box>
-                            <Box flexGrow={1}>
-                              <a
-                                style={{
-                                  margin: 0,
-                                  padding: 0,
-                                  backgroundColor: '#00DFFF',
-                                }}
-                                onClick={() => {
-                                  chrome.runtime.sendMessage(
-                                    {
-                                      directive: 'delete-click',
-                                      groupId: group.id,
-                                    },
-                                    function(response) {
-                                      setRefresher(true);
-                                    }
-                                  );
-                                }}
-                              >
-                                Delete Group
-                              </a>
-                            </Box>
-                          </Box>
+                        <div
+                          style={{
+                            width: 450,
+                            height: 100,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-evenly',
+                            alignItems: 'stretch',
+                          }}
+                        >
+                          <OpenAll
+                            groupId={group.id}
+                            setRefresher={setRefresher}
+                          />
+                          <DeleteButton
+                            groupId={group.id}
+                            setRefresher={setRefresher}
+                            displayDelete={displayDelete}
+                            setDisplayDelete={setDisplayDelete}
+                          />
                         </div>
                         {group &&
                           group.data.map((tab, key) => {

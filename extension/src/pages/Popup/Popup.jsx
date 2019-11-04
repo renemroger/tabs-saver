@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react';
 import { getStorageData, saveData } from '../Content/modules/storageHelpers';
-import CategoryNavigator from './Components/CategoryNavigator';
 import { getAllGroups, getAllCategories } from '../Content/modules/tabsHelpers';
 import StyledCategoryNavigator from './Components/StyledCategoryNavigator';
 import SaveTab from './Components/SaveTab';
@@ -15,10 +14,17 @@ const Popup = () => {
   const [categories, setCategories] = useState([]);
   const [refresher, setRefresher] = useState(false);
   const [currentlyOpenedPanels, setCurrentlyOpenedPanels] = useState([]);
+  const [isGroupsEmpty, setIsGroupEmpty] = useState(true);
 
   useEffect(() => {
     getStorageData(null)
       .then((result) => {
+        if (
+          Object.entries(result).length !== 0 &&
+          result.constructor === Object
+        ) {
+          setIsGroupEmpty(false);
+        }
         setCategories(getAllCategories(result));
         setGroups(getAllGroups(result));
       })
@@ -47,6 +53,7 @@ const Popup = () => {
       <div className="sep"></div>
       <SaveTab categories={categories} setRefresher={setRefresher} />
       <div className="sep"></div>
+      {isGroupsEmpty && <p>No Saved Tabs</p>}
       <StyledCategoryNavigator
         setRefresher={setRefresher}
         key={uniqid()}
