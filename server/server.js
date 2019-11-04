@@ -38,7 +38,7 @@ App.use(BodyParser.urlencoded({ extended: false }));
 App.use(Express.static("public"));
 
 // Sample GET route
-App.get("/api/data", (req, res) => {
+App.get("/", (req, res) => {
   res.json({
     message: "Seems to work!"
   });

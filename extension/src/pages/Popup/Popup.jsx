@@ -48,6 +48,7 @@ const Popup = () => {
       <SaveTab categories={categories} setRefresher={setRefresher} />
       <div className="sep"></div>
       <StyledCategoryNavigator
+        setRefresher={setRefresher}
         key={uniqid()}
         categories={categories}
         groups={groups}

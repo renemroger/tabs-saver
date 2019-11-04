@@ -5,11 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon server.js",
-    "client": "npm start --prefix client",
+    "server": "nodemon server.js --prefix server",
     "extension": "npm start --prefix extension",
-    "install-all": "concurrently \"cd client && npm install\" \"cd server && npm install\" \"cd extension && npm install\"",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "install-all": "concurrently \"cd server && npm install\" \"cd extension && npm install\""
   },
   "repository": {
     "type": "git",

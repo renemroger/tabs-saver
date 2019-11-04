@@ -39,8 +39,13 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         }
       });
       break;
+    case 'delete-click':
+      chrome.storage.sync.remove(request.groupId, function() {
+        console.log(request.groupId);
+      });
+      break;
     case 'empty-click':
-      chrome.storage.sync.clear(function() {
+      chrome.storage.sync.remove(function() {
         var error = chrome.runtime.lastError;
         if (error) {
           console.error(error);

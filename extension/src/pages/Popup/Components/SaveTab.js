@@ -15,7 +15,7 @@ import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import AddCircleOutlined from '@material-ui/icons/AddCircleOutlined';
 import IconButton from '@material-ui/core/IconButton';
-import CreatableSingle from './CreatableSingle';
+import CategorySelector from './CategorySelector';
 
 import { saveData } from '../../Content/modules/storageHelpers';
 
@@ -30,6 +30,7 @@ const useStyles = makeStyles(() => ({
   },
   DialogTitle: {
     alignSelf: 'baseline',
+    padding: '2px 8px',
   },
 }));
 
@@ -89,14 +90,14 @@ export default function SaveTab(props) {
         <DialogTitle className={classes.DialogTitle} id="form-dialog-title">
           Saving Tabs
         </DialogTitle>
-        <CreatableSingle
+        <CategorySelector
           setCategoryName={setCategoryName}
           categories={props.categories}
         />
         <DialogContent>
           <TextField
             autoComplete="off"
-            autoFocus
+            autoFocus="false"
             margin="dense"
             id="name"
             onChange={handleGroupNameChange}

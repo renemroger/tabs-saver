@@ -115,6 +115,8 @@ export default function StyledCategoryNavigator(props) {
     }
   };
 
+  const setRefresher = props.setRefresher;
+
   const nameShortener = (tabName, size) => {
     return `${tabName.slice(0, size)}...`;
   };
@@ -193,7 +195,7 @@ export default function StyledCategoryNavigator(props) {
                                       groupId: group.id,
                                     },
                                     function(response) {
-                                      //this.close();
+                                      setRefresher(true);
                                     }
                                   );
                                 }}
