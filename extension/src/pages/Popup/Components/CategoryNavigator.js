@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
@@ -40,8 +41,6 @@ export default function CategoryNavigatorSpider(props) {
         return (
           <TreeItem key={uniqid()} nodeId={category.name} label={category.name}>
             {groups.map((group, index) => {
-              const GROUPCURRENTID = uniqid();
-
               //filtering out groups that dont belong to right category TODO: Could be improved
               if (category.name === group.category) {
                 return (

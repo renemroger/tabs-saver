@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -11,6 +12,8 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import Box from '@material-ui/core/Box';
 import uniqid from 'uniqid';
+
+import Tabs from './Tabs';
 
 //TODO: REMOVE UNNECESARY CODE
 const useTreeItemStyles = makeStyles((theme) => ({
@@ -118,7 +121,10 @@ export default function StyledCategoryNavigator(props) {
   const setRefresher = props.setRefresher;
 
   const nameShortener = (tabName, size) => {
-    return `${tabName.slice(0, size)}...`;
+    if (tabName.length > size) {
+      return `${tabName.slice(0, size)}...`;
+    }
+    return tabName;
   };
 
   return (
@@ -208,12 +214,12 @@ export default function StyledCategoryNavigator(props) {
                         {group &&
                           group.data.map((tab, key) => {
                             return (
-                              <StyledTreeItem
+                              <Tabs
                                 key={uniqid()}
                                 nodeId={tab.id.toString()}
                                 labelText={nameShortener(tab.url, 40)}
-                                labelIcon={Link} //TODO: Dynamically load items from tab.favIcon
-                              ></StyledTreeItem>
+                                labelIcon={Link}
+                              ></Tabs>
                             );
                           })}
                       </StyledTreeItem>

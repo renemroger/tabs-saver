@@ -7,21 +7,19 @@ import { saveData } from '../Content/modules/storageHelpers';
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   switch (request.directive) {
     case 'save-click':
-      saveData();
+      // saveData();
       break;
     case 'open-click':
       //get priveiously saved tabs
-      console.log('here', request.groupId);
       chrome.storage.sync.get([request.groupId], (result) => {
-        //create new window
         if (
           Object.entries(result).length !== 0 &&
           result.constructor === Object
         ) {
-          console.log(result[request.groupId].Data[0]);
+          console.log(result[request.groupId].tabs);
           chrome.windows.create({}, function() {
             //create tabs in new window
-            for (const tab of result[request.groupId].Data[0]) {
+            for (const tab of result[request.groupId].tabs) {
               chrome.tabs.create({ url: tab.url });
             }
           });
@@ -39,13 +37,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         }
       });
       break;
-    case 'delete-click':
-      chrome.storage.sync.remove(request.groupId, function() {
-        console.log(request.groupId);
-      });
-      break;
     case 'empty-click':
-      chrome.storage.sync.remove(function() {
+      chrome.storage.sync.clear(function() {
         var error = chrome.runtime.lastError;
         if (error) {
           console.error(error);
