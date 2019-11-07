@@ -12,6 +12,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import uniqid from 'uniqid';
 
+import './StyledCategoryNavigator.css';
 import Tabs from './Tabs';
 import DeleteButton from './DeleteButton';
 import OpenAll from './OpenAll';
@@ -27,9 +28,10 @@ const useTreeItemStyles = makeStyles((theme) => ({
   },
   content: {
     color: theme.palette.text.secondary,
-    borderTopRightRadius: theme.spacing(2),
-    borderBottomRightRadius: theme.spacing(2),
+    borderTopRightRadius: theme.spacing(1),
+    borderTopLeftRadius: theme.spacing(1),
     paddingRight: theme.spacing(1),
+    width: 'inherit',
     fontWeight: theme.typography.fontWeightMedium,
     '$expanded > &': {
       fontWeight: theme.typography.fontWeightRegular,
@@ -38,13 +40,15 @@ const useTreeItemStyles = makeStyles((theme) => ({
   group: {
     marginLeft: 0,
     '& $content': {
-      paddingLeft: theme.spacing(2),
+      paddingLeft: theme.spacing(1),
+      width: 'initial',
     },
   },
   expanded: {},
   label: {
     fontWeight: 'inherit',
     color: 'inherit',
+    marginBottom: 0,
   },
   labelRoot: {
     display: 'flex',
@@ -84,10 +88,6 @@ function StyledTreeItem(props) {
           </Typography>
         </div>
       }
-      style={{
-        '--tree-view-color': color,
-        '--tree-view-bg-color': bgColor,
-      }}
       classes={{
         root: classes.root,
         content: classes.content,
@@ -141,6 +141,16 @@ export default function StyledCategoryNavigator(props) {
         props.categories.map((category, key) => {
           return (
             <StyledTreeItem
+              style={{
+                borderStyle: 'solid',
+                borderColor: 'grey',
+                borderWidth: '3px',
+                paddingBottom: '0px',
+                marginBottom: '15px',
+                borderRadius: '12px',
+                borderBottomLeftRadius: '0px',
+                borderBottomRightRadius: '0px',
+              }}
               key={uniqid()}
               nodeId={category.name}
               labelText={category.name}
@@ -154,6 +164,15 @@ export default function StyledCategoryNavigator(props) {
                   if (category.name === group.category) {
                     return (
                       <StyledTreeItem
+                        style={{
+                          width: '100%',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          marginBottom: '0px',
+                          justifyContent: 'space-evenly',
+                          alignItems: 'stretch',
+                          backgroundColor: 'white',
+                        }}
                         key={uniqid()}
                         nodeId={group.id}
                         labelText={group.name}
@@ -167,7 +186,7 @@ export default function StyledCategoryNavigator(props) {
                       >
                         <div
                           style={{
-                            width: 450,
+                            width: '100%',
                             height: 100,
                             display: 'flex',
                             flexDirection: 'column',
