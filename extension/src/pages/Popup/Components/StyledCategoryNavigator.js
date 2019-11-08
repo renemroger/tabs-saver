@@ -12,6 +12,13 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import uniqid from 'uniqid';
 
+import MailIcon from '@material-ui/icons/Mail';
+import DeleteIcon from '@material-ui/icons/Delete';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import InfoIcon from '@material-ui/icons/Info';
+import ForumIcon from '@material-ui/icons/Forum';
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+
 import './StyledCategoryNavigator.css';
 import Tabs from './Tabs';
 import DeleteButton from './DeleteButton';
@@ -44,7 +51,6 @@ const useTreeItemStyles = makeStyles((theme) => ({
       width: 'initial',
     },
   },
-  expanded: {},
   label: {
     fontWeight: 'inherit',
     color: 'inherit',
@@ -107,18 +113,17 @@ StyledTreeItem.propTypes = {
   labelInfo: PropTypes.string,
   labelText: PropTypes.string.isRequired,
 };
+const useStyles = makeStyles({
+  root: {
+    height: 264,
+    flexGrow: 1,
+    maxWidth: 400,
+  },
+});
 
 export default function StyledCategoryNavigator(props) {
+  const classes = useStyles();
   const [displayDelete, setDisplayDelete] = React.useState(true);
-  const onNodeToggle = (nodeId, isExpanded) => {
-    if (isExpanded) {
-      props.setCurrentlyOpenedPanels((arr) => [...arr, nodeId]);
-    } else {
-      props.setCurrentlyOpenedPanels((arr) => [
-        ...arr.filter((item) => item !== nodeId),
-      ]);
-    }
-  };
 
   const setRefresher = props.setRefresher;
 
@@ -135,13 +140,13 @@ export default function StyledCategoryNavigator(props) {
       defaultExpandIcon={<ArrowRightIcon />}
       defaultEndIcon={<div style={{ width: 24 }} />}
       defaultExpanded={props.currentlyOpenedPanels}
-      onNodeToggle={onNodeToggle}
     >
       {props.categories &&
         props.categories.map((category, key) => {
           return (
             <StyledTreeItem
               style={{
+                bcColor: 'red',
                 borderStyle: 'solid',
                 borderColor: 'grey',
                 borderWidth: '3px',
@@ -155,7 +160,6 @@ export default function StyledCategoryNavigator(props) {
               nodeId={category.name}
               labelText={category.name}
               labelIcon={Label}
-              // labelInfo={'1'}
             >
               {/*TODO: could be moved into function */}
               {props.groups &&
@@ -177,11 +181,6 @@ export default function StyledCategoryNavigator(props) {
                         nodeId={group.id}
                         labelText={group.name}
                         labelIcon={Label}
-                        //TODO: Icon from tab are .ICO
-                        //use https://www.npmjs.com/package/ico-to-png to transform ICO to PNG
-                        //use https://www.npmjs.com/package/potrace to transform PNG to SVG
-                        // https://material-ui.com/components/icons/#svgicon to display SVG
-
                         labelInfo={'2'}
                       >
                         <div
@@ -213,13 +212,16 @@ export default function StyledCategoryNavigator(props) {
                                 nodeId={tab.id.toString()}
                                 labelText={nameShortener(tab.url, 40)}
                                 labelIcon={Link}
+                                urlKey={key}
+                                groupId={group.id}
+                                setRefresher={setRefresher}
                               ></Tabs>
                             );
                           })}
                       </StyledTreeItem>
                     );
                   } else {
-                    return <React.Fragment key={uniqid()}></React.Fragment>;
+                    return <></>;
                   }
                 })}
             </StyledTreeItem>

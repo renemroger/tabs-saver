@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import DirectionsIcon from '@material-ui/icons/Directions';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Box from '@material-ui/core/Box';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +25,11 @@ const useStyles = makeStyles((theme) => ({
     height: 28,
     margin: 4,
   },
+  container: {
+    fontSize: '14px',
+    minWidth: '290px',
+    textAlign: 'start',
+  },
 }));
 
 export default function Tabs(props) {
@@ -33,11 +38,7 @@ export default function Tabs(props) {
   return (
     <Paper className={classes.root}>
       <Box
-        style={{
-          fontSize: '14px',
-          minWidth: '300px',
-          textAlign: 'start',
-        }}
+        className={classes.container}
         component="div"
         display={props.labelText}
         p={1}
@@ -51,14 +52,35 @@ export default function Tabs(props) {
         color="primary"
         className={classes.iconButton}
         aria-label="directions"
+        onClick={() => {
+          chrome.runtime.sendMessage(
+            {
+              directive: 'open-single',
+              tabUrl: props.url,
+            },
+            function(response) {}
+          );
+        }}
       >
-        <DirectionsIcon />
+        <OpenInNewIcon />
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
       <IconButton
         color="primary"
         className={classes.iconButton}
         aria-label="directions"
+        onClick={() => {
+          chrome.runtime.sendMessage(
+            {
+              directive: 'delete-single',
+              tabKey: props.urlKey,
+              groupId: props.groupId,
+            },
+            function(response) {
+              props.setRefresher(true);
+            }
+          );
+        }}
       >
         <DeleteIcon />
       </IconButton>

@@ -1,5 +1,3 @@
-import { getStorageData } from './storageHelpers';
-
 function getAllTabs() {
   return new Promise(function(resolve, reject) {
     chrome.tabs.query(

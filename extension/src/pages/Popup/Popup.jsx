@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react';
-import { getStorageData, saveData } from '../Content/modules/storageHelpers';
+import { getStorageData } from '../Content/modules/storageHelpers';
 import { getAllGroups, getAllCategories } from '../Content/modules/tabsHelpers';
 import StyledCategoryNavigator from './Components/StyledCategoryNavigator';
 import SaveTab from './Components/SaveTab';

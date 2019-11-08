@@ -21,15 +21,16 @@ export default function DeleteButton(props) {
         }}
       >
         <button
-          onClick={() => {
+          onClick={(event) => {
+            event.preventDefault();
             chrome.runtime.sendMessage(
               {
                 directive: 'delete-click',
                 groupId: props.groupId,
               },
               function(response) {
-                props.setRefresher(true);
                 props.setDisplayDelete(false);
+                props.setRefresher(true);
               }
             );
           }}
@@ -37,8 +38,8 @@ export default function DeleteButton(props) {
           Confirm
         </button>{' '}
         <button
-          onClick={() => {
-            props.setRefresher(true);
+          onClick={(event) => {
+            event.preventDefault();
             props.setDisplayDelete(true);
           }}
         >

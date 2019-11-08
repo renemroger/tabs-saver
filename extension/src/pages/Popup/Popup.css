@@ -10,12 +10,6 @@
   zoom: 1;
 }
 
-.MuiDialogContent-root {
-  position: relative;
-  height: auto;
-  overflow: hidden;
-  min-height: 100px;
-}
 body {
   color: #303030;
   font-size: 12px;

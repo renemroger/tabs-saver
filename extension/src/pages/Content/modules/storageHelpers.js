@@ -10,6 +10,15 @@ const getStorageData = (key) =>
     )
   );
 
+const deleteStorageData = (key) =>
+  new Promise((resolve, reject) =>
+    chrome.storage.sync.remove(key, (removed) =>
+      chrome.runtime.lastError
+        ? reject(Error(chrome.runtime.lastError.message))
+        : resolve(removed)
+    )
+  );
+
 const setStorageData = (data) =>
   new Promise((resolve, reject) =>
     chrome.storage.sync.set(data, () =>
@@ -19,11 +28,7 @@ const setStorageData = (data) =>
     )
   );
 
-async function saveData(
-  categoryName = prompt('Enter Category name'),
-  groupName = prompt('Enter Group name')
-) {
-  let userId = 'test';
+async function saveData(categoryName, groupName) {
   getAllTabs().then((tabs) => {
     if (!categoryName) categoryName = 'default';
     if (!groupName) groupName = 'default';
@@ -44,4 +49,4 @@ async function saveData(
   });
 }
 
-export { saveData, setStorageData, getStorageData };
+export { saveData, setStorageData, getStorageData, deleteStorageData };

@@ -3,10 +3,37 @@ import '../../assets/img/icon32.png';
 import '../../assets/img/icon64.png';
 import '../../assets/img/icon128.png';
 
+import {
+  getStorageData,
+  setStorageData,
+  deleteStorageData,
+} from '../Content/modules/storageHelpers';
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   switch (request.directive) {
-    case 'save-click':
-      // saveData();
+    case 'open-single':
+      chrome.tabs.create({ url: request.tabUrl }, function() {
+        //create tabs in new window
+      });
+      break;
+    case 'delete-single':
+      //get group
+      getStorageData(request.groupId).then((result) => {
+        deleteStorageData(request.groupId).then(() => {
+          result[request.groupId].tabs.splice(request.urlKey, 1);
+          setStorageData(result);
+        });
+
+        chrome.storage.sync.set(result, () => {
+          var error = chrome.runtime.lastError;
+          if (error) {
+            console.error(error);
+          }
+        });
+      });
+
+      //console.log(result[request.groupId].tabs);
+
       break;
     case 'open-click':
       //get priveiously saved tabs
@@ -36,22 +63,23 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       });
       break;
     case 'empty-click':
+      //bore
+      getStorageData(null).then((result) => {
+        console.log(result);
+      });
       chrome.storage.sync.clear(function() {
         var error = chrome.runtime.lastError;
         if (error) {
           console.error(error);
         }
-        console.log('all tabs removed');
+        //after
+        getStorageData(null).then((result) => {
+          console.log(result);
+        });
       });
       break;
     case 'delete-click':
-      console.log('delete');
-      chrome.storage.sync.remove(request.groupId, function() {
-        var error = chrome.runtime.lastError;
-        if (error) {
-          console.error(error);
-        }
-      });
+      deleteStorageData(request.groupId);
       break;
     default:
       alert('Case not found');
